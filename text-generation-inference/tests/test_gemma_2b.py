@@ -78,12 +78,12 @@ def run_decode_multi(model_path):
     output = generations[0].generated_text
     print("output: ", output.text)
 
- # def main():
- #     print("arrive main")
- #     model_path = model_path()
- #     print("gain model_path")
- #     run_decode_multi(model_path)
- #     print("after all request")
+ def main():
+     print("arrive main")
+     model_path = model_path()
+     print("gain model_path")
+     run_decode_multi(model_path)
+     print("after all request")
 
- # if __name__ == '__main__':
- #     main()
+ if __name__ == '__main__':
+     main()
