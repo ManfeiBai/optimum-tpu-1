@@ -115,9 +115,9 @@ def test_decode_multi(model_path):
 
 def main():
     print("arrive main")
-    model_path = model_path()
+    # model_path = model_path()
     print("gain model_path")
-    test_decode_multi(model_path)
+    test_decode_multi(model_path())
     print("after all request")
 
 if __name__ == '__main__':
