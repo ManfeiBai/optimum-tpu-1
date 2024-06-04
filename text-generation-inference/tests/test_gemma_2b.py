@@ -113,6 +113,6 @@ def test_decode_multi(model_path):
       "<s>[INST] <<SYS>>\nYou are an AI assistant. You will be given a task. You must generate a detailed and long answer.\n<</SYS>>\n\nContinue the following story.\n\nKay didn't have shoes that fit her feet properly. She only wore sneakers, because the \nChoose from: [I] shoes  fitted badly. [II] sneakers  fitted badly. [/INST]",
     ]
     for prompt in prompts:
-        test_decode_single_text(input_text)
+        test_decode_single_text(prompt)
     print("finish all tests for gemma-2b")
     
