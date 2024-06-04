@@ -80,6 +80,7 @@ def create_request(
 #     assert output.text == generated_text
 
 def test_decode_multi(model_path):
+  print("in test_decode_multi, model_path is: ", model_path)
   prompts: List[str] = [
       "I believe the meaning of life is",
       "To add an element to an ArrayList of a specific class type in Java, you can follow the following steps:\n\n1. Create an instance of the class to be added.\n2. Get a reference to the ArrayList.\n3. Call the `add()` method on the ArrayList, passing the instance of the class as the argument.\n\nHere's an example of how to add an object of type `Person` to an ArrayList of type `ArrayList<Person>`:\n```csharp\n// Create a new instance of the Person class\nPerson person = new Person(\"John\", 25);\n\n// Get a reference to the ArrayList\nArrayList<Person> peopleList = new ArrayList<>();\n\n// Add the person object to the ArrayList\npeopleList.add(person);\n```\nIn this example, the `Person` class is assumed to have a constructor that takes two arguments: a String for the person's name, and an int for their age. You can substitute your own class and constructor as necessary.",
@@ -113,12 +114,12 @@ def test_decode_multi(model_path):
     # assert output.finish_reason == 0
     # assert output.text == generated_text
 
-def main():
-    print("arrive main")
-    # model_path = model_path()
-    print("gain model_path")
-    test_decode_multi(model_path())
-    print("after all request")
+# def main():
+#     print("arrive main")
+#     # model_path = model_path()
+#     print("gain model_path")
+#     test_decode_multi(model_path())
+#     print("after all request")
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
