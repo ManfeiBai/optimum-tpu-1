@@ -112,3 +112,13 @@ def test_decode_multi(model_path):
     # assert output.generated_tokens == max_new_tokens
     # assert output.finish_reason == 0
     # assert output.text == generated_text
+
+def main():
+    print("arrive main")
+    model_path = model_path()
+    print("gain model_path")
+    test_decode_multi(model_path)
+    print("after all request")
+
+if __name__ == '__main__':
+    main()
