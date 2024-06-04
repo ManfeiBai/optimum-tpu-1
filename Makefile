@@ -94,7 +94,7 @@ tgi_test: test_installs tgi_server
 tgi_test_gemma_2b: test_installs tgi_server
 	find text-generation-inference -name "text_generation_server-$(VERSION)-py3-none-any.whl" \
 	                               -exec python -m pip install --force-reinstall {} \;
-	python -m -sv text-generation-inference/tests/test_gemma_2b.py
+	python text-generation-inference/tests/test_gemma_2b.py
 
 tgi_docker_test: tpu-tgi
 	python -m pip install -r text-generation-inference/integration-tests/requirements.txt
