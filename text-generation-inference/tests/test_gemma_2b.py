@@ -1,5 +1,4 @@
 import os
-
 import pytest
 from text_generation_server.generator import TpuGenerator
 from text_generation_server.pb.generate_pb2 import (
@@ -9,21 +8,16 @@ from text_generation_server.pb.generate_pb2 import (
     StoppingCriteriaParameters,
 )
 from tqdm import tqdm
-
 from optimum.tpu.model import fetch_model
-
 
 MODEL_ID = "google/gemma-2b"
 SEQUENCE_LENGTH = 1024
 
-
-@pytest.fixture(scope="module")
 def model_path():
     # Add variables to environment so they can be used in AutoModelForCausalLM
     os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
     path = fetch_model(MODEL_ID)
     return path
-
 
 def create_request(
     id: int,
@@ -53,33 +47,7 @@ def create_request(
     stopping_parameters = StoppingCriteriaParameters(max_new_tokens=max_new_tokens)
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
-
-# def test_decode_single(model_path):
-#     input_text = "It was a bright cold day in April, and the clocks were striking thirteen."
-#     max_new_tokens = 20
-#     generated_text = "\n\nThe first thing I noticed was the smell of the rain. It was a smell I had never"
-
-#     generator = TpuGenerator.from_pretrained(
-#         model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
-#     )
-#     request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
-#     batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
-#     generations, next_batch = generator.prefill(batch)
-#     # We already generated one token: call decode max_new_tokens - 1 times
-#     for _ in tqdm(range(max_new_tokens - 1)):
-#         assert next_batch.size == 1
-#         assert next_batch.max_tokens == 1024
-#         assert len(generations) == 1
-#         assert len(generations[0].tokens.ids) == 1
-#         generations, next_batch = generator.decode([next_batch])
-#     assert next_batch is None
-#     assert len(generations) == 1
-#     output = generations[0].generated_text
-#     assert output.generated_tokens == max_new_tokens
-#     assert output.finish_reason == 0
-#     assert output.text == generated_text
-
-def test_decode_multi(model_path):
+def run_decode_multi(model_path):
   print("in test_decode_multi, model_path is: ", model_path)
   prompts: List[str] = [
       "I believe the meaning of life is",
@@ -92,7 +60,6 @@ def test_decode_multi(model_path):
     input_text = prompt # "It was a bright cold day in April, and the clocks were striking thirteen."
     max_new_tokens = 20
     # generated_text = "\n\nThe first thing I noticed was the smell of the rain. It was a smell I had never"
-
     generator = TpuGenerator.from_pretrained(
         model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
     )
@@ -110,16 +77,13 @@ def test_decode_multi(model_path):
     assert len(generations) == 1
     output = generations[0].generated_text
     print("output: ", output.text)
-    # assert output.generated_tokens == max_new_tokens
-    # assert output.finish_reason == 0
-    # assert output.text == generated_text
 
-# def main():
-#     print("arrive main")
-#     # model_path = model_path()
-#     print("gain model_path")
-#     test_decode_multi(model_path())
-#     print("after all request")
+ # def main():
+ #     print("arrive main")
+ #     model_path = model_path()
+ #     print("gain model_path")
+ #     run_decode_multi(model_path)
+ #     print("after all request")
 
-# if __name__ == '__main__':
-#     main()
+ # if __name__ == '__main__':
+ #     main()
