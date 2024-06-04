@@ -54,7 +54,7 @@ def create_request(
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
 
-def iter_single_text(input_text_i):
+def iter_single_text(input_text_i, model_path):
     print("enter iter_single_text")
     input_text = input_text_i# "It was a bright cold day in April, and the clocks were striking thirteen."
     max_new_tokens = 20
@@ -125,6 +125,6 @@ def test_decode_multi(model_path):
     print("has prompts")
     for prompt in prompts:
         print("enter for loop")
-        iter_single_text(prompt)
+        iter_single_text(prompt, model_path)
     print("finish all tests for gemma-2b")
     
