@@ -1,6 +1,6 @@
 import os
 
-import pytest
+# import pytest
 from text_generation_server.generator import TpuGenerator
 from text_generation_server.pb.generate_pb2 import (
     Batch,
