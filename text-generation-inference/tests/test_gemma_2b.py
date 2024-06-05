@@ -47,7 +47,8 @@ def create_request(
     stopping_parameters = StoppingCriteriaParameters(max_new_tokens=max_new_tokens)
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
-async def run_decode_multi(model_path):
+@pytest.mark.asyncio
+async def test_run_decode_multi(model_path):
   print("in test_decode_multi, model_path is: ", model_path)
   prompts: List[str] = [
       "I believe the meaning of life is",
@@ -78,14 +79,14 @@ async def run_decode_multi(model_path):
     output = generations[0].generated_text
     print("output: ", output.text)
 
-def main():
-  print("arrive main")
-  os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
-  model_path = fetch_model(MODEL_ID)
-  # model_path = model_path()
-  print("gain model_path")
-  run_decode_multi(model_path)
-  print("after all request")
+# def main():
+#   print("arrive main")
+#   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
+#   model_path = fetch_model(MODEL_ID)
+#   # model_path = model_path()
+#   print("gain model_path")
+#   run_decode_multi(model_path)
+#   print("after all request")
 
-if __name__ == '__main__':
-  main()
+# if __name__ == '__main__':
+#   main()
