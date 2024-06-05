@@ -83,7 +83,7 @@ def test_run_decode_multi_all():
   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
   model_path = fetch_model(MODEL_ID)
   print("in test_decode_multi, model_path is: ", model_path)
-  test_run_decode_multi(model_path)
+  run_decode_multi(model_path)
 
 # @pytest.mark.asyncio
 # async def test_run_decode_multi(model_path):
