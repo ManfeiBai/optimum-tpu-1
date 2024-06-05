@@ -47,7 +47,7 @@ def create_request(
     stopping_parameters = StoppingCriteriaParameters(max_new_tokens=max_new_tokens)
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
-def run_decode_multi(model_path):
+async def run_decode_multi(model_path):
   print("in test_decode_multi, model_path is: ", model_path)
   prompts: List[str] = [
       "I believe the meaning of life is",
