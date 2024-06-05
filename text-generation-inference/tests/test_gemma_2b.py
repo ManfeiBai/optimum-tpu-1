@@ -118,7 +118,7 @@ async def run_decode_multi(model_path):
         generations, next_batch = generator.decode([next_batch])
     assert next_batch is None
     assert len(generations) == 1
-    output = generations[0].generated_text
+    output = await generations[0].generated_text
     print("output: ", output.text)
 
 # def main():
