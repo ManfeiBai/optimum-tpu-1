@@ -131,6 +131,7 @@ def run_decode_multi(model_path):
     print("output: ", output.text)
     generator.clear()
     print("generator.slots.size(): ", generator.slots.size())
+    generator.slots = []
 
 def main():
   print("arrive main")
