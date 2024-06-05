@@ -113,15 +113,19 @@ def run_decode_multi(model_path):
     batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
     print("after batch")
     generations, next_batch = generator.prefill(batch)
+    print("after prefill generator")
     # We already generated one token: call decode max_new_tokens - 1 times
     for _ in tqdm(range(max_new_tokens - 1)):
         assert next_batch.size == 1
         assert next_batch.max_tokens == 1024
         assert len(generations) == 1
         assert len(generations[0].tokens.ids) == 1
+        print("inside for _ in tqdm")
         generations, next_batch = generator.decode([next_batch])
+    print("after for _ in tqdm")
     assert next_batch is None
     assert len(generations) == 1
+    print("before generations[0].generated_text")
     output = generations[0].generated_text
     print("output: ", output.text)
 
