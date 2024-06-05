@@ -45,6 +45,7 @@ def create_request(
         typical_p=typical_p,
     )
     stopping_parameters = StoppingCriteriaParameters(max_new_tokens=max_new_tokens)
+    print("just before request")
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
 # @pytest.mark.asyncio
@@ -87,8 +88,9 @@ def test_run_decode_multi_all():
 
 # @pytest.mark.asyncio
 # async def test_run_decode_multi(model_path):
-@pytest.mark.asyncio
-async def run_decode_multi(model_path):
+# @pytest.mark.asyncio
+# async def run_decode_multi(model_path):
+def run_decode_multi(model_path):
   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
   model_path = fetch_model(MODEL_ID)
   # print("in test_decode_multi, model_path is: ", model_path)
@@ -107,7 +109,9 @@ async def run_decode_multi(model_path):
         model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
     )
     request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
+    print("after request")
     batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
+    print("after batch")
     generations, next_batch = generator.prefill(batch)
     # We already generated one token: call decode max_new_tokens - 1 times
     for _ in tqdm(range(max_new_tokens - 1)):
@@ -121,14 +125,14 @@ async def run_decode_multi(model_path):
     output = await generations[0].generated_text
     print("output: ", output.text)
 
-# def main():
-#   print("arrive main")
-#   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
-#   model_path = fetch_model(MODEL_ID)
-#   # model_path = model_path()
-#   print("gain model_path")
-#   run_decode_multi(model_path)
-#   print("after all request")
+def main():
+  print("arrive main")
+  os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
+  model_path = fetch_model(MODEL_ID)
+  # model_path = model_path()
+  print("gain model_path")
+  run_decode_multi(model_path)
+  print("after all request")
 
-# if __name__ == '__main__':
-#   main()
+if __name__ == '__main__':
+  main()
