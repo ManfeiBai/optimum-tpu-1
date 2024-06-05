@@ -130,6 +130,7 @@ def run_decode_multi(model_path):
     output = generations[0].generated_text
     print("output: ", output.text)
     generator.clear()
+    print("generator.slots.size(): ", generator.slots.size())
 
 def main():
   print("arrive main")
