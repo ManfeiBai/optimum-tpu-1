@@ -128,6 +128,7 @@ def run_decode_multi(model_path):
     print("before generations[0].generated_text")
     output = generations[0].generated_text
     print("output: ", output.text)
+    generator.clear()
 
 def main():
   print("arrive main")
