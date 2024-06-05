@@ -99,3 +99,7 @@ tgi_test_gemma_2b: test_installs tgi_server
 tgi_docker_test: tpu-tgi
 	python -m pip install -r text-generation-inference/integration-tests/requirements.txt
 	python -m pytest -sv text-generation-inference/integration-tests
+
+tgi_multi_test:
+	python -m pip install -r text-generation-inference/integration-tests/requirements.txt
+	python -m pytest -sv text-generation-inference/integration-tests
