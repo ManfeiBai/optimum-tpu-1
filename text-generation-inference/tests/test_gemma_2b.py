@@ -101,13 +101,14 @@ def run_decode_multi(model_path):
       "<s>[INST] <<SYS>>\nYou are an AI assistant that helps people find information. Provide a detailed answer so user don\u2019t need to search outside to understand the answer.\n<</SYS>>\n\nUse reasoning to lead to the answer of the following question:\nWhere are you likely to find water underneath?\nOptions:\n- toilet\n- sink\n- jar\n- bridge\n- house\n Reasoning process: [/INST",
       "<s>[INST] <<SYS>>\nYou are an AI assistant. You will be given a task. You must generate a detailed and long answer.\n<</SYS>>\n\nContinue the following story.\n\nKay didn't have shoes that fit her feet properly. She only wore sneakers, because the \nChoose from: [I] shoes  fitted badly. [II] sneakers  fitted badly. [/INST]",
   ]
+  generator = TpuGenerator.from_pretrained(model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH)
   for prompt in prompts:
     input_text = prompt # "It was a bright cold day in April, and the clocks were striking thirteen."
     max_new_tokens = 20
     # generated_text = "\n\nThe first thing I noticed was the smell of the rain. It was a smell I had never"
-    generator = TpuGenerator.from_pretrained(
-        model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
-    )
+    # generator = TpuGenerator.from_pretrained(
+    #     model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
+    # )
     request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
     print("after request")
     batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
