@@ -105,7 +105,7 @@ def run_decode_multi(model_path):
       "Here's an example of how to add an object of type `Person` to an ArrayList of type `ArrayList<Person>`:",
       "```csharp\n// Create a new instance of the Person class\nPerson person = new Person(\"John\", 25);",
       "// Get a reference to the ArrayList\nArrayList<Person> peopleList = new ArrayList<>();",
-      "// Add the person object to the ArrayList\npeopleList.add(person);\n```",
+      "Add the person object to the ArrayList peopleList",
       "In this example, the `Person` class is assumed to have a constructor that takes two arguments:",
       "a String for the person's name, and an int for their age. You can substitute your own class and constructor as necessary.",
       "You are an AI assistant. User will you give you a task.",
