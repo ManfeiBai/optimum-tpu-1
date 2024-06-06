@@ -164,7 +164,7 @@ def main():
   # print("gain model_path")
   run_decode_multi(model_path)
   # print("after all request")
-  print("--- finish all requests used : %s seconds ---" % (time.time() - start_time2))
+  print("--- finish all requests used : %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
   main()
