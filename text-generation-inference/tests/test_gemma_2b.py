@@ -1,5 +1,6 @@
 import os
 # import pytest
+import time
 from text_generation_server.generator import TpuGenerator
 from text_generation_server.pb.generate_pb2 import (
     Batch,
@@ -45,7 +46,7 @@ def create_request(
         typical_p=typical_p,
     )
     stopping_parameters = StoppingCriteriaParameters(max_new_tokens=max_new_tokens)
-    print("just before request")
+    # print("just before request")
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
 # @pytest.mark.asyncio
@@ -83,7 +84,7 @@ def create_request(
 def test_run_decode_multi_all():
   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
   model_path = fetch_model(MODEL_ID)
-  print("in test_decode_multi, model_path is: ", model_path)
+  # print("in test_decode_multi, model_path is: ", model_path)
   run_decode_multi(model_path)
 
 # @pytest.mark.asyncio
@@ -131,37 +132,39 @@ def run_decode_multi(model_path):
     #     model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
     # )
     request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
-    print("after request")
+    # print("after request")
     batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
-    print("after batch")
+    # print("after batch")
     generations, next_batch = generator.prefill(batch)
-    print("after prefill generator")
+    # print("after prefill generator")
     # We already generated one token: call decode max_new_tokens - 1 times
     for _ in tqdm(range(max_new_tokens - 1)):
         assert next_batch.size == 1
         assert next_batch.max_tokens == 1024
         assert len(generations) == 1
         assert len(generations[0].tokens.ids) == 1
-        print("inside for _ in tqdm")
+        # print("inside for _ in tqdm")
         generations, next_batch = generator.decode([next_batch])
-    print("after for _ in tqdm")
+    # print("after for _ in tqdm")
     assert next_batch is None
     assert len(generations) == 1
-    print("before generations[0].generated_text")
+    # print("before generations[0].generated_text")
     output = generations[0].generated_text
-    print("output: ", output.text)
+    # print("output: ", output.text)
     generator.clear()
     # print("generator.slots.size(): ", generator.slots.size())
     # generator.slots = []
 
 def main():
-  print("arrive main")
+  start_time = time.time()
+  # print("arrive main")
   os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
   model_path = fetch_model(MODEL_ID)
   # model_path = model_path()
-  print("gain model_path")
+  # print("gain model_path")
   run_decode_multi(model_path)
-  print("after all request")
+  # print("after all request")
+  print("--- finish all requests used : %s seconds ---" % (time.time() - start_time2))
 
 if __name__ == '__main__':
   main()
