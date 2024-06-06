@@ -333,12 +333,17 @@ class TpuGeneratorSingleThread(Generator):
             self.slots.remove(slot)
         # Assign each request to an empty slot
         logger.debug(f"Prefilling {len(batch.requests)} new request(s) adding to {len(active_slots)} active slot(s)")
+        print("self.slot_index: ", self.slot_index)
+        print("self.slots: ", self.slots)
+        print("before for request in batch.requests:")
         for request in batch.requests:
             # Dynamically create a new slot for each request
             slot = Slot(self.slot_index, self.tokenizer, self.model.device)
             self.slot_index += 1
             slot.assign(request, self.model.generation_config)
             self.slots.append(slot)
+            print("self.slot_index: ", self.slot_index)
+            print("self.slots: ", self.slots)
             logger.debug(f"Request {slot.request_id} assigned to slot {slot.id}")
         # Reconstruct the full inputs (without padding) as seen by the model.
         # This comprises:
@@ -346,6 +351,7 @@ class TpuGeneratorSingleThread(Generator):
         # - the inputs and the generated text that has already been cached (i.e. excluding the last generated token)
         #   for unfinished requests.
         inputs = [slot.cached_text for slot in self.slots]
+        print("inputs: ", inputs)
         # Tokenize with padding
         padded_inputs = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.model.device)
         #  If needed truncate sequences to fit into the static dimensions
@@ -355,10 +361,14 @@ class TpuGeneratorSingleThread(Generator):
         # Pause previously active slots during generation and store their last token.
         next_tokens = []
         for slot in active_slots:
+            print("slot.next_token: ", slot.next_token)
             next_tokens.append(slot.next_token)
             slot.pause()
+        print("next_tokens: ", next_tokens)
         # Each slot must be reset with the padded inputs and masks
         for i, slot in enumerate(self.slots):
+            print("i: ", i)
+            print("slot: ", slot)
             if slot.state != slot.state.EMPTY:
                 slot_input_ids = input_ids[i : i + 1, :]
                 # Padded input ids are also required to set logits processors and stopping criterias
@@ -376,10 +386,13 @@ class TpuGeneratorSingleThread(Generator):
                 else:
                     slot_attention_mask = attention_mask[i]
                 slot.reset(slot_input_ids, slot_attention_mask, selector)
+        print("after for :389")
         # Clear KV cache
         self.past_key_values = None
+        print("after clear kv cache")
         # Obtain position ids using attention mask.
         position_ids = (attention_mask.cumsum(-1) - 1).masked_fill(attention_mask == 0, 0)
+        print("position_ids: ", position_ids)
 
         extra_args = {}
         if self._supports_static_cache:
@@ -395,16 +408,23 @@ class TpuGeneratorSingleThread(Generator):
         else:
             # Reset/clear KV cache
             self.past_key_values = None
+        print("after if :410")
         generation, next_batch = self._generate_token(
             batch.id, input_ids, self.model, attention_mask=attention_mask, position_ids=position_ids, **extra_args
         )
+        print("after self._generate_token(")
 
         # Reactivate previously active slots for the next decode, and append
         # back their next token.
+        print("before for slot, next_token in zip(active_slots, next_tokens):")
         for slot, next_token in zip(active_slots, next_tokens):
             slot.append(next_token)
+            print("next token:", next_token)
             slot.resume()
+            print("slot:", slot)
+        print("after  for slot, next_token in zip(active_slots, next_tokens):")
         logger.debug("Model ready for decoding")
+        print("after logger.debug Model ready for decoding")
         return generation, next_batch
 
     @torch.no_grad
