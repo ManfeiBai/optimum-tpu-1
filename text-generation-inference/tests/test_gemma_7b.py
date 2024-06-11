@@ -106,7 +106,7 @@ def run_decode_multi(model_path):
     # )
     for prompt in prompts:
         input_text = prompt
-        request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
+        request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=True)
         batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
         generations, next_batch = generator.prefill(batch)
         # We already generated one token: call decode max_new_tokens - 1 times
