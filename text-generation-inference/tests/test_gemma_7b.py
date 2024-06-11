@@ -123,3 +123,11 @@ def run_decode_multi(model_path):
         # assert output.generated_tokens == max_new_tokens
         # assert output.finish_reason == 0
         # assert output.text == generated_text
+
+def main():
+  os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
+  model_path = fetch_model(MODEL_ID)
+  run_decode_multi(model_path)
+
+if __name__ == '__main__':
+  main()
