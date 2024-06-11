@@ -112,7 +112,7 @@ def run_decode_multi(model_path):
         # We already generated one token: call decode max_new_tokens - 1 times
         for _ in tqdm(range(max_new_tokens - 1)):
             assert next_batch.size == 1
-            assert next_batch.max_tokens == 128
+            assert next_batch.max_tokens == 20
             assert len(generations) == 1
             assert len(generations[0].tokens.ids) == 1
             generations, next_batch = generator.decode([next_batch])
