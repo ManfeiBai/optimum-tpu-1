@@ -31,7 +31,7 @@ def create_request(
     inputs: str,
     max_new_tokens=20,
     do_sample: bool = False,
-    top_k: int = 50,
+    top_k: int = 1, # 50,
     top_p: float = 0.9,
     temperature: float = 1.0,
     seed: int = 0,
