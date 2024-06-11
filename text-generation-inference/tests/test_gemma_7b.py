@@ -1,4 +1,5 @@
 import os
+import time
 
 import pytest
 from text_generation_server.generator import TpuGenerator
