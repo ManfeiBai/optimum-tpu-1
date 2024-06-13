@@ -68,7 +68,7 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
   # with open(sharegpt_path, "r", encoding="utf-8") as f:
   #   loaded_share_gpt = json.load(f)
   # for example in prompts:
-  for i in raneg(len(prompts)):
+  for i in range(len(prompts)):
     # if len(example["conversations"]) < 2:
     #   continue
     input_tokens = tokens_in_input_str(prompts[i])
