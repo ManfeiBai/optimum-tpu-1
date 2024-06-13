@@ -60,7 +60,7 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
     return 1 if x == 0 else 2 ** (x - 1).bit_length()
 
   def tokens_in_input_str(s):
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     return_val = int(1.3 * len(s.split()))
     return return_val
 
@@ -93,6 +93,7 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
   total_prefill_system_ms = 0
   total_generate_system_ms = 0
 
+  import pdb; pdb.set_trace()
   for convo in kept_convos:
     input_tok, output_tok = convo
     bucket = max(128, next_power_of_2(input_tok))
