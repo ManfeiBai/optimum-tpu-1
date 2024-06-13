@@ -214,7 +214,7 @@ def run_decode_multi(model_path):
         generations, next_batch = generator.prefill(batch)
         prefill_time = time.time() - start_time_prefill
         print("--- prefill time : %s seconds ---" % prefill_time, " for prompt: ", prompt)
-        prefill_times.append(prefill_time)
+        prefill_times[prompt] = prefill_time
 
         # We already generated one token: call decode max_new_tokens - 1 times
         start_time_decode = time.time()
