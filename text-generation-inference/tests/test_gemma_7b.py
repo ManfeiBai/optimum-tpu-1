@@ -96,7 +96,8 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
   import pdb; pdb.set_trace()
   for convo in kept_convos:
     input_tok, output_tok = convo
-    bucket = max(128, next_power_of_2(input_tok))
+    # bucket = max(128, next_power_of_2(input_tok))
+    bucket = max(7, next_power_of_2(input_tok))
     generate_system_ms = output_tok * system_time_per_decode_token_ms
     prefill_system_ms = prefill_bucket_size_to_ms[bucket]
 
