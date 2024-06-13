@@ -55,11 +55,12 @@ def create_request(
     return Request(id=id, inputs=inputs, parameters=parameters, stopping_parameters=stopping_parameters)
 
 def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_decode_token_ms):
-  import pdb; pdb.set_trace()
+  # import pdb; pdb.set_trace()
   def next_power_of_2(x):
     return 1 if x == 0 else 2 ** (x - 1).bit_length()
 
   def tokens_in_input_str(s):
+    import pdb; pdb.set_trace()
     return_val = int(1.3 * len(s.split()))
     return return_val
 
