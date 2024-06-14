@@ -94,12 +94,13 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
   total_generate_system_ms = 0
 
   import pdb; pdb.set_trace()
+  int iteri = 0
   for convo in kept_convos:
     input_tok, output_tok = convo
     # bucket = max(128, next_power_of_2(input_tok))
     bucket = max(7, next_power_of_2(input_tok))
     generate_system_ms = output_tok * system_time_per_decode_token_ms
-    prefill_system_ms = prefill_bucket_size_to_ms[bucket]
+    prefill_system_ms = prefill_bucket_size_to_ms[iteri] # [bucket]
 
     print(
         f"{convo=} {bucket=}, {prefill_system_ms=:.2f}, {generate_system_ms=:.2f}"
@@ -126,7 +127,7 @@ def do_simulation(prompts, replys, prefill_bucket_size_to_ms, system_time_per_de
   )
 
   idealized_prefill_sec = (
-      1.1 * input_tokens / 1024 * prefill_bucket_size_to_ms[1024] / 1000
+      1.1 * input_tokens / 1024 * 60.28 / 1000 # 1024: 60.28,
   )
 
   prefill_savings_sec = total_prefill_sec - idealized_prefill_sec
@@ -242,7 +243,8 @@ def run_decode_multi(model_path):
         # assert output.text == generated_text
     print("decode", sum(dec_times) / 10)
 
-    prefill_times_ms = {k: v * 1000 for k, v in prefill_times.items()}
+    # prefill_times_ms = {k: v * 1000 for k, v in prefill_times.items()}
+    prefill_times_ms = [(k: v * 1000) for k, v in prefill_times.items()]
     decode_time_ms = sum(dec_times) * 1000 / 10 / 1 # FLAGS.batch_size
 
     # call fun
