@@ -244,7 +244,8 @@ def run_decode_multi(model_path):
     print("decode", sum(dec_times) / 10)
 
     # prefill_times_ms = {k: v * 1000 for k, v in prefill_times.items()}
-    prefill_times_ms = [(k: v * 1000) for k, v in prefill_times.items()]
+    # prefill_times_ms = [(k: v * 1000) for k, v in prefill_times.items()]
+    prefill_times_ms = [v for k, v in prefill_times.items()]
     decode_time_ms = sum(dec_times) * 1000 / 10 / 1 # FLAGS.batch_size
 
     # call fun
