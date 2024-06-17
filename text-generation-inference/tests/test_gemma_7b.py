@@ -165,11 +165,16 @@ def test_run_decode_multi_all():
   run_decode_multi(model_path)
 
 # @pytest.mark.slow
-def run_decode_multi(model_path):
+def run_decode_multi(): # model_path):
+    os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
+    start_time_load_model = time.time()
+    model_path = fetch_model(MODEL_ID)
+    # print("--- load model used : %s seconds ---" % (time.time() - start_time_load_model))
     generator = TpuGenerator.from_pretrained(
         model_path, revision="", max_batch_size=1,
         max_sequence_length=SEQUENCE_LENGTH
     )
+    print("--- load model used : %s seconds ---" % (time.time() - start_time_load_model))
 
     start_time = time.time()
     prompts: List[str] = [
@@ -253,11 +258,12 @@ def run_decode_multi(model_path):
     do_simulation(prompts, replys, prefill_times_ms, decode_time_ms)
 
 def main():
-  os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
-  start_time_load_model = time.time()
-  model_path = fetch_model(MODEL_ID)
-  print("--- load model used : %s seconds ---" % (time.time() - start_time_load_model))
-  run_decode_multi(model_path)
+  # os.environ["HF_SEQUENCE_LENGTH"] = str(SEQUENCE_LENGTH)
+  # start_time_load_model = time.time()
+  # model_path = fetch_model(MODEL_ID)
+  # print("--- load model used : %s seconds ---" % (time.time() - start_time_load_model))
+  # run_decode_multi(model_path)
+  run_decode_multi()
 
 if __name__ == '__main__':
   main()
