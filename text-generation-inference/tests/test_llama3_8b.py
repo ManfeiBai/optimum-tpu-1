@@ -93,8 +93,6 @@ def test_decode_multi(model_path):
     for prompt in prompts:
         input_text = "It was a bright cold day in April, and the clocks were striking thirteen."
         max_new_tokens = 20
-        # generated_text = " Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind,"
-    
         generator = TpuGenerator.from_pretrained(
             model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
         )
@@ -112,7 +110,3 @@ def test_decode_multi(model_path):
         assert len(generations) == 1
         print("---- One output text: ", output.text)
     print("---- finish all four inference tests")
-        # output = generations[0].generated_text
-        # assert output.generated_tokens == max_new_tokens
-        # assert output.finish_reason == 0
-        # assert output.text == generated_text
