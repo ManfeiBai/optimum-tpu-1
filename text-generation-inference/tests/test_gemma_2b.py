@@ -92,13 +92,8 @@ def test_decode_multi(model_path):
       "<s>[INST] <<SYS>>\nYou are an AI assistant. You will be given a task. You must generate a detailed and long answer.\n<</SYS>>\n\nContinue the following story.\n\nKay didn't have shoes that fit her feet properly. She only wore sneakers, because the \nChoose from: [I] shoes  fitted badly. [II] sneakers  fitted badly. [/INST]",
     ]
     for prompt in prompts:
-        input_text = prompt # "It was a bright cold day in April, and the clocks were striking thirteen."
+        input_text = prompt
         max_new_tokens = 20
-        # generated_text = "\n\nThe first thing I noticed was the smell of the rain. It was a smell I had never"
-    
-        # generator = TpuGenerator.from_pretrained(
-        #     model_path, revision="", max_batch_size=1, max_sequence_length=SEQUENCE_LENGTH
-        # )
         request = create_request(id=0, inputs=input_text, max_new_tokens=max_new_tokens, do_sample=False)
         batch = Batch(id=0, requests=[request], size=1, max_tokens=SEQUENCE_LENGTH)
         generations, next_batch = generator.prefill(batch)
@@ -114,13 +109,3 @@ def test_decode_multi(model_path):
         output = generations[0].generated_text
         print("---- One output text: ", output.text)
     print("---- finish all four inference tests")
-    # assert output.generated_tokens == max_new_tokens
-    # assert output.finish_reason == 0
-    # assert output.text == generated_text
-
-    # sampled_tokens_list.extend(token_ids)
-
-    # print("---- All output tokens.")
-    # print(sampled_tokens_list)
-    # print("---- All output text.")
-    # print(tokenizer.decode(sampled_tokens_list))
